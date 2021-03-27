@@ -9,7 +9,7 @@ server.use(cors())
 server.use(express.json())
 
 server.get('/', (req, res) => {
-  res.send('<h1>welcome!</h1>')
+  res.send('<h1>welcome to Water my Plants!</h1>')
 })
 
 module.exports = server
