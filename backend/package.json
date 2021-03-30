@@ -4,16 +4,30 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "server": "nodemon index.js"
+    "server": "nodemon index.js",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "seed": "knex seed:run",
+    "migrateh": "heroku run knex migrate:latest -a water-my-plants-tt43",
+    "rollbackh": "heroku run knex migrate:rollback -a water-my-plants-tt43",
+    "databaseh": "heroku pg:psql -a water-my-plants-tt43",
+    "seedh": "heroku run knex seed:run -a water-my-plants-tt43",
+    "test": "cross-env NODE_ENV=testing jest --watchAll --verbose --runInBand",
+    "deploy": "git subtree push --prefix backend heroku main"
   },
-  "keywords": [],
-  "author": "",
+  "engines": {
+    "node": "14.16.0",
+    "npm": "6.14.11"
+  },
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^26.0.22",
+    "cross-env": "^7.0.3",
     "eslint": "^7.23.0",
-    "nodemon": "^2.0.7"
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.3"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -21,6 +35,7 @@
     "express": "^4.17.1",
     "helmet": "^4.4.1",
     "knex": "^0.95.4",
+    "knex-cleaner": "^1.3.1",
     "pg": "^8.5.1"
   }
 }
