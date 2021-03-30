@@ -11,8 +11,9 @@ router.post('/', (req, res) => {
   res.json({message: 'post a new plant here'})
 })
 
-router.get('/:id', (req, res) => {
-  res.json({message: 'get a specific plant here'})
+router.get('/:id', async (req, res) => {
+  const plant = await Plants.findById(req.params.id)
+  res.status(200).json(plant)
 })
 
 router.put('/:id', (req, res) => {
