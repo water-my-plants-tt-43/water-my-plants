@@ -4,6 +4,7 @@ import LoginForm from "./components/LoginForm";
 
 import React from "react";
 import { Route, Link, Switch } from "react-router-dom";
+import PrivateRoute from "./utils/ProtectedRoute";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path='/login'>
           <LoginForm />
         </Route>
+
         <Route path='/'>
           <Home />
         </Route>
