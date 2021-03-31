@@ -25,8 +25,8 @@ exports.up = async (knex) => {
       .notNullable()
       .references('plant_id')
       .inTable('plants')
-      .onDelete('RESTRICT')
-      .onUpdate('RESTRICT')
+      .onDelete('CASCADE')
+      .onUpdate('CASCADE')
       user_plants.string('nickname')
       user_plants.integer('water_frequency')
       user_plants.dateTime('last_water')
@@ -39,8 +39,8 @@ exports.up = async (knex) => {
       .notNullable()
       .references('user_plants_id')
       .inTable('user_plants')
-      .onDelete('RESTRICT')
-      .onUpdate('RESTRICT')
+      .onDelete('CASCADE')
+      .onUpdate('CASCADE')
     })
 }
 
