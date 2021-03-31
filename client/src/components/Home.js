@@ -76,10 +76,6 @@ margin-bottom:-1.5rem;
 
 
 
-
-
-
-
 export default function Home() {
   const history = useHistory();
 
