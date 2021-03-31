@@ -54,7 +54,8 @@ const initialFormErrors = {
   password: "Password... or else",
 };
 
-export default function LoginForm() {
+export default function LoginForm(props) {
+  const { setUserId } = props;
   const { push } = useHistory();
   const [formvalues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
@@ -87,6 +88,7 @@ export default function LoginForm() {
         formvalues
       )
       .then((res) => {
+        setUserId(res.data.user_id);
         localStorage.setItem("token", res.data.token);
         push("/plants");
       })
