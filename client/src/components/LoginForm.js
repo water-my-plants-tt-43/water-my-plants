@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import LoginFormSchema from "../validation/LoginFormSchema";
 import * as yup from "yup";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
+
 // function Login(){
 //   const [loginData, setLoginDate] = useState ({
 //     userInput : '',
@@ -52,6 +55,7 @@ const initialFormErrors = {
 };
 
 export default function LoginForm() {
+  const { push } = useHistory();
   const [formvalues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
 
@@ -74,8 +78,23 @@ export default function LoginForm() {
     const { name, value } = e.target;
     updateForm(name, value);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(
+        "https://water-my-plants-tt43.herokuapp.com/api/auth/login",
+        formvalues
+      )
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        push("/plants");
+      })
+      .catch((err) => console.log(err.response));
+  };
+
   return (
-    <form onSubmit={onsubmit}>
+    <form onSubmit={handleSubmit}>
       <div className='errors'>
         <div>{formErrors.username}</div>
         <div>{formErrors.password}</div>
