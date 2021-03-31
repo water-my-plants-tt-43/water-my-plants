@@ -7,15 +7,18 @@ const registerFormSchema = yup.object().shape({
 
     password: yup
     .string()
+    .min(6, "Must be at least 6 characters")
     .required('Password is required'),
 
     email: yup
     .string()
+    .email()
     .required('Email is required'),
 
     number: yup
-    .string()
+    .number()
     .min(10, 'Must be 10 numbers long')
+    .max(10)
 })
 
 export default registerFormSchema
