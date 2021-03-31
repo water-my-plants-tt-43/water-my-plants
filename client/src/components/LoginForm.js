@@ -203,7 +203,7 @@ export default function LoginForm(props) {
 
   return (
     <LoginContainer>
-      <img src={logo} className='logo'/>
+      <img src={logo} className='logo' alt='Water My Plants logo green'/>
       <h1>Login</h1>
       <div className = 'formContainer'>
       <form onSubmit={handleSubmit}>
