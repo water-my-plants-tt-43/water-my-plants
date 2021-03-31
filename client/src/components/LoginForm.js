@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import LoginFormSchema from "../validation/LoginFormSchema";
 import * as yup from "yup";
 import axios from "axios";
-import logo from '../WaterMyPlants.svg'
+import logo from '../WaterMyPlantsGreen.svg'
 import { useHistory } from "react-router-dom";
 
 
@@ -25,8 +25,8 @@ align-content:center;
   width:80%;
   height:auto;
   bottom:0;
-  mix-blend-mode: exclusion;
-  opacity:.03;
+  mix-blend-mode: multiply;
+  opacity:.2;
 
   
 };
