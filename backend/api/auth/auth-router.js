@@ -5,7 +5,7 @@ const bcryptjs = require('bcryptjs')
 const {jwtSecret, rounds} = require('../secret')
 const {checkUsernameExists, checkBodyExists, checkUsernameFree} = require('./auth-middleware')
 
-
+//eslint-disable-next-line
 router.post('/register', checkBodyExists, checkUsernameFree, async (req, res, next) => {
   const credentials = req.body
 
@@ -40,11 +40,6 @@ router.post('/login', checkBodyExists, checkUsernameExists,  async (req, res, ne
     next(err)
   }
 })
-
-router.get('/logout', (req, res) => {
-  res.json({message: 'logout endpoint here'})
-})
-
 
 function buildToken(user) {
   const payload = {

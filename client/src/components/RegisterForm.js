@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import {useHistory} from 'react-router-dom'
+import axios from 'axios'
 import registerFormSchema from '../validation/RegisterFormSchema'
 import * as yup from 'yup'
 
@@ -10,14 +12,15 @@ const initialFormValues = {
     number:'',
   }
   const initialFormErrors = {
-    username:'Username is required',
-    password:'Password is required',
-    email:'Email is required',
-    number:'Must be 10 numbers long'
+    username:'',
+    password:'',
+    email:'',
+    number:'',
   }
 
 
-export default function RegisterForm() {
+export default function RegisterForm(props) {
+    const history = useHistory()
 
     const [formValues, setFormValues] = useState(initialFormValues);
     const [formErrors, setFormErrors] = useState(initialFormErrors)
@@ -44,8 +47,21 @@ export default function RegisterForm() {
         updateForm(name, value)
     }
 
+    const onSubmit = (e)=>{
+        e.preventDefault();
+        axios.post('https://water-my-plants-tt43.herokuapp.com/api/auth/register', formValues)
+            .then(res => {
+                //console.log(res)
+                history.push('/login')
+                
+
+            })
+            .catch(err=> console.log(err))
+        setFormValues(initialFormValues)
+    }
+
     return (
-        <form onSubmit = {onsubmit}>
+        <form onSubmit = {onSubmit}>
             <div className='errors'>
                 <div>{formErrors.username}</div>
                 <div>{formErrors.password}</div>
@@ -90,13 +106,13 @@ export default function RegisterForm() {
                 Phone Number
                 <input 
                     name='number'
-                    type='number'
+                    type='tel'
                     value={formValues.number}
                     onChange={onChange}
                     placeholder='Phone Number'
                 />
             </label>
-            <button>Submit</button>
+            <button>Register</button>
         </form>
     )
 }
