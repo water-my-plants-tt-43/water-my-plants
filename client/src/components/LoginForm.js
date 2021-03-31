@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
-import LoginFormSchema from '../validation/LoginFormSchema'
-import * as yup from 'yup'
+import React, { useState } from "react";
+import LoginFormSchema from "../validation/LoginFormSchema";
+import * as yup from "yup";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
+
 // function Login(){
 //   const [loginData, setLoginDate] = useState ({
 //     userInput : '',
@@ -14,8 +17,6 @@ import * as yup from 'yup'
 //   });
 
 // };
-
-
 
 //   return(
 //   <div className="Login">
@@ -44,42 +45,57 @@ import * as yup from 'yup'
 // }
 
 const initialFormValues = {
-  username:'',
-  password:''
-}
+  username: "",
+  password: "",
+};
 
 const initialFormErrors = {
-  user:'Username!!!',
-  password:'Password... or else'
-}
+  user: "Username!!!",
+  password: "Password... or else",
+};
 
 export default function LoginForm() {
-  const [formvalues, setFormValues] = useState(initialFormValues)
-  const [formErrors, setFormErrors] = useState(initialFormErrors)
+  const { push } = useHistory();
+  const [formvalues, setFormValues] = useState(initialFormValues);
+  const [formErrors, setFormErrors] = useState(initialFormErrors);
 
-    const updateForm = (name, value) => {
+  const updateForm = (name, value) => {
     yup
-    .reach(LoginFormSchema, name)
-    .validate(value)
-    .then(() => {
-      setFormErrors({...formErrors, [name]: '',
+      .reach(LoginFormSchema, name)
+      .validate(value)
+      .then(() => {
+        setFormErrors({ ...formErrors, [name]: "" });
+      })
+      .catch((err) => {
+        setFormErrors({ ...formErrors, [name]: err.errors[0] });
       });
-    })
-    .catch((err) => {
-      setFormErrors({...formErrors, [name]: err.errors[0]})
-    })
     setFormValues({
-      ...formvalues, [name]: value
-    })
+      ...formvalues,
+      [name]: value,
+    });
+  };
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    updateForm(name, value);
+  };
 
-  }
-  const onChange = e => {
-    const {name, value} = e.target
-    updateForm (name, value)
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(
+        "https://water-my-plants-tt43.herokuapp.com/api/auth/login",
+        formvalues
+      )
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        push("/plants");
+      })
+      .catch((err) => console.log(err.response));
+  };
+
   return (
-    <form onSubmit = {onsubmit}>
-      <div className = 'errors'>
+    <form onSubmit={handleSubmit}>
+      <div className='errors'>
         <div>{formErrors.username}</div>
         <div>{formErrors.password}</div>
       </div>
@@ -92,7 +108,7 @@ export default function LoginForm() {
           value={formvalues.username}
           onChange={onChange}
           placeholder='Username'
-          />
+        />
       </label>
 
       <label>
@@ -103,8 +119,9 @@ export default function LoginForm() {
           value={formvalues.password}
           onChange={onChange}
           placeholder='Username'
-          />
+        />
       </label>
-      </form>
-  )
+      <button>Log In</button>
+    </form>
+  );
 }
