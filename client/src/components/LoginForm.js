@@ -34,7 +34,7 @@ align-content:center;
   & p{
     color: ${props=>props.theme.color.hover};
     margin-top:4rem;
-    font-weight: 500;
+    font-weight: 400;
     font-size:1rem;
     text-align: center;
     position:relative;
