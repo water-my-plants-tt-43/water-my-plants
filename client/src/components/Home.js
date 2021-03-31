@@ -54,7 +54,7 @@ cursor: pointer;
 & .imgContainer{
 width:100%;
 height: 80vh;
-background-color:${props=>props.theme.color.background};
+background-color:rgba(117,172,73,.25);
 margin-bottom:-1.5rem;
 
 & div{
