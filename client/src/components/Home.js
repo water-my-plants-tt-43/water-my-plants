@@ -2,7 +2,7 @@
 //pic maybe
 //description
 //import PlantsList from './PlantsList'
-import React,{useContext} from "react";
+import React from "react";
 import styled from 'styled-components'
 import { useHistory } from "react-router-dom";
 import Button from './Button'
@@ -92,8 +92,8 @@ export default function Home() {
       <HomeContainer>
       
       <div className='imgContainer'>
-      <img src={logo} className='logo'/>
-      <div><img  src='https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/plants-in-pots-royalty-free-image-1574464255.jpg?crop=1.00xw:0.752xh;0,0.0649xh&resize=980:*'/></div>
+      <img src={logo} className='logo' alt='Water My Plants logo.svg'/>
+      <div><img alt='variety of plants background' src='https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/plants-in-pots-royalty-free-image-1574464255.jpg?crop=1.00xw:0.752xh;0,0.0649xh&resize=980:*'/></div>
       </div>
       <Button onClick={handleLoginClick} innerText={'login'}/>
       <p> don't have an account? | <span onClick={routeToRegister}>register</span></p>
