@@ -1,7 +1,7 @@
-import React, {createContext, useState} from 'react'
-import { ThemeProvider } from "styled-components";
+import {createContext} from 'react'
 
 export const ThemeContext = createContext()
+
 export const theme = {
     font:{
         display: `xants, serif`,
@@ -16,8 +16,3 @@ export const theme = {
         grayLight: '#ededed'
     },
 }
-
-
-
-
-

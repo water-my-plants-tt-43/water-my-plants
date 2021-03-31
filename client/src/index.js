@@ -3,15 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {BrowserRouter as Router} from 'react-router-dom'
-import {theme} from './context/ThemeContext'
-import {ThemeProvider} from 'styled-components'
+import {ThemeContext, theme} from './context/ThemeContext'
 
 
 ReactDOM.render(
   <Router>
-    <ThemeProvider theme={theme}>
+    <ThemeContext.Provider value={theme}>
     <App />
-    </ThemeProvider>
+    </ThemeContext.Provider>
   </Router>,
   document.getElementById('root')
 );
