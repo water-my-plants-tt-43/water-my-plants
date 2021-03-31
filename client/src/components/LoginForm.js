@@ -26,7 +26,7 @@ align-content:center;
   height:auto;
   bottom:0;
   mix-blend-mode: exclusion;
-  opacity:.05;
+  opacity:.03;
 
   
 };
