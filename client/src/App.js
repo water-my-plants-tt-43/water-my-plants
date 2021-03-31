@@ -1,3 +1,4 @@
+
 import Home from "./components/Home";
 import RegisterForm from "./components/RegisterForm";
 import LoginForm from "./components/LoginForm";
@@ -10,7 +11,8 @@ import PrivateRoute from "./utils/ProtectedRoute";
 function App() {
   return (
     <div>
-      Water My Plants
+      
+      
       <Switch>
         <Route path={"/RegisterForm"}>
           <RegisterForm />
@@ -23,6 +25,7 @@ function App() {
           <Home />
         </Route>
       </Switch>
+      
     </div>
   );
 }
