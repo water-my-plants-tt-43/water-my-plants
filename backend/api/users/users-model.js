@@ -6,13 +6,13 @@ const find = () => {
 }
 const findBy = (filter) => {
   return db('users')
-  .select('user_id', 'username', 'password')
+  .select('user_id', 'username', 'password', 'phone')
   .where('username', filter)
 }
 
 function findById(id) {
   return db('users')
-  .select('user_id', 'username', 'password')
+  .select('user_id', 'username', 'password', 'phone')
   .where('user_id', id).first()
 }
 
@@ -22,10 +22,17 @@ async function add(user){
   console.log(id)
   return findById(id[0])
 }
+async function update(id, changes){
+  await db('users')
+  .where('user_id', id)
+  .update(changes)
+  return findById(id)
+}
 
 module.exports = {
   find,
   findBy,
   findById,
-  add
+  add,
+  update
 }

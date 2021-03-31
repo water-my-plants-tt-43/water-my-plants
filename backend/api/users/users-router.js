@@ -18,8 +18,19 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.put('/:id', (req, res) => {
-  res.json({message: 'edit a specific user by id here'})
+router.put('/:id', async (req, res, next) => {
+  try{
+    const userId = req.params.id
+    const changes = req.body
+    if(!changes.username || !changes.password || !changes.phone) {
+      res.status(400).json({message: "this request must contain all required fields"})
+    } else{
+      const updatedUser = await Users.update(userId, changes)
+      res.json(updatedUser)
+    }
+  }catch(err){
+    next(err)
+  }
 })
 
 //eslint-disable-next-line
