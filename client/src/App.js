@@ -18,10 +18,10 @@ function App() {
         <Route path={"/RegisterForm"}>
           <RegisterForm />
         </Route>
-        <Route path='/login' setUserId={setUserId} >
-          <LoginForm />
+        <Route path='/login' >
+          <LoginForm setUserId={setUserId} />
         </Route>
-        <PrivateRoute path='/plants' component={PlantsList} userId={userId} />
+        <PrivateRoute path='/plants' component={PlantsList} props={userId} />
         <PrivateRoute path='/newplant' component={NewPlant} />
         <Route path='/'>
           <Home />
