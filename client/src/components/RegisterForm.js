@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import logo from '../WaterMyPlantsGreen.svg'
+import Button from './Button'
+import {FormRouteContainer} from './FormContainer'
 import axios from "axios";
 import registerFormSchema from "../validation/RegisterFormSchema";
 import * as yup from "yup";
+
+
 
 const initialFormValues = {
   username: "",
@@ -19,6 +24,7 @@ const initialFormErrors = {
 
 export default function RegisterForm(props) {
   const history = useHistory();
+  const {push} = history;
 
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
@@ -54,23 +60,21 @@ export default function RegisterForm(props) {
       )
       .then((res) => {
         console.log(res);
-        history.push("/login");
+        push('/login');
       })
       .catch((err) => console.log(err.response));
     setFormValues(initialFormValues);
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <div className='errors'>
-        <div>{formErrors.username}</div>
-        <div>{formErrors.password}</div>
-        {/* <div>{formErrors.email}</div> */}
-        <div>{formErrors.number}</div>
-      </div>
+    <FormRouteContainer>
+      <img src={logo} className='logo' alt='Water My Plants logo green'/>
+      <h1>Register</h1>
+      <div className='formContainer'>
+      <form onSubmit={onSubmit}>
+    
 
-      <label>
-        Username
+      <label htmlFor='username'>username</label>
         <input
           name='username'
           type='text'
@@ -78,10 +82,9 @@ export default function RegisterForm(props) {
           onChange={onChange}
           placeholder='Username'
         />
-      </label>
+    
 
-      <label>
-        Password
+      <label htmlFor='password'>password</label>
         <input
           name='password'
           type='password'
@@ -89,7 +92,7 @@ export default function RegisterForm(props) {
           onChange={onChange}
           placeholder='Password'
         />
-      </label>
+    
 
       {/* <label>
         Email
@@ -102,8 +105,7 @@ export default function RegisterForm(props) {
         />
       </label> */}
 
-      <label>
-        Phone Number
+      <label htmlFor='phone'>phone</label>
         <input
           name='phone'
           type='tel'
@@ -111,8 +113,19 @@ export default function RegisterForm(props) {
           onChange={onChange}
           placeholder='Phone Number'
         />
-      </label>
-      <button>Register</button>
+
+      <div className='errors'>
+        <div>{formErrors.username}</div>
+        <div>{formErrors.password}</div>
+        {/* <div>{formErrors.email}</div> */}
+        <div>{formErrors.number}</div>
+      </div>
+    
+      <Button innerText={'register'}/> 
     </form>
+      </div>
+
+      <p><span onClick={()=>push('/')}>back to home</span> | <span onClick={()=>push('/login')}>login</span></p>
+    </FormRouteContainer>
   );
 }
