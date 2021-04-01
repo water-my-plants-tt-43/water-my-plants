@@ -28,7 +28,7 @@ const IndividualPlant = (props) => {
       <div className='plant-view'>
         <div className='view-header'>
           <h1>{plant.nickname}</h1>
-          <p>{plant.last_water.slice(0, 10)}</p>
+          <p>{plant.last_water && plant.last_water.slice(0,10)}</p>
           <p>{plant.species}</p>
           <p>Created By: {plant.user}</p>
           <p>Days between watering: {plant.water_frequency}</p>
