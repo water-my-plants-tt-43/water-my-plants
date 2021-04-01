@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import Button from './Button'
-import {FormRouteContainer} from './FormContainer'
+import Button from "./Button";
+import { FormRouteContainer } from "./FormContainer";
 import LoginFormSchema from "../validation/LoginFormSchema";
 import * as yup from "yup";
 import axios from "axios";
-import logo from '../WaterMyPlantsGreen.svg'
+import logo from "../WaterMyPlantsGreen.svg";
 import { useHistory } from "react-router-dom";
-
-
-
 
 // function Login(){
 //   const [loginData, setLoginDate] = useState ({
@@ -94,8 +91,10 @@ export default function LoginForm(props) {
         formvalues
       )
       .then((res) => {
-        setUserId(res.data.user_id);
+        console.log(res.data.user_id);
+        // setUserId(res.data.user_id);
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", res.data.user_id);
         push("/plants");
       })
       .catch((err) => console.log(err.response));
@@ -103,41 +102,41 @@ export default function LoginForm(props) {
 
   return (
     <FormRouteContainer>
-      <img src={logo} className='logo' alt='Water My Plants logo green'/>
+      <img src={logo} className='logo' alt='Water My Plants logo green' />
       <h1>Login</h1>
-      <div className = 'formContainer'>
-      <form onSubmit={handleSubmit}>
+      <div className='formContainer'>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor='username'>username </label>
+          <input
+            name='username'
+            type='text'
+            value={formvalues.username}
+            onChange={onChange}
+            placeholder='username'
+          />
 
-       <label htmlFor='username'>username </label>
-            <input
-              name='username'
-              type='text'
-              value={formvalues.username}
-              onChange={onChange}
-              placeholder='username'
-            />
-          
-        
           <label htmlFor='password'>password</label>
-            <input
-              name='password'
-              type='password'
-              value={formvalues.password}
-              onChange={onChange}
-              placeholder='password'
-            />
-          
+          <input
+            name='password'
+            type='password'
+            value={formvalues.password}
+            onChange={onChange}
+            placeholder='password'
+          />
 
           <div className='errors'>
             <div>{formErrors.username}</div>
             <div>{formErrors.password}</div>
           </div>
 
-          <Button innerText={'Login'}/>
-</form>
+          <Button innerText={"Login"} />
+        </form>
       </div>
 
-      <p><span onClick={()=>push('/')}>back to home</span> | <span onClick={()=>push('/RegisterForm')}>register</span></p>
+      <p>
+        <span onClick={() => push("/")}>back to home</span> |{" "}
+        <span onClick={() => push("/RegisterForm")}>register</span>
+      </p>
     </FormRouteContainer>
   );
 }
