@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import {useHistory} from 'react-router-dom'
 import styled from 'styled-components'
+import thumb from '../plantThumbImg.svg'
 
 const ThumbWrapper= styled.div`
 
@@ -9,6 +10,15 @@ color: ${props=> props.theme.color.teal};
 
 & div{
     margin-bottom:.5rem;
+    background:${props=>props.theme.color.background};
+    width:100%;
+    
+
+    & img{
+        object-fit:cover;
+        width:100%;
+        height: auto;
+    }
 };
 & h4{
    
@@ -35,7 +45,7 @@ const PlantThumb = (props) => {
     return(
         <ThumbWrapper key ={plant.user_plants_id} onClick={() => push(`/plant/${plant.user_plants_id}`)}>
 
-            <div><img src='' alt={`${plant.nickname}(${plant.species}) photo`}/></div>
+            <div><img src={thumb} alt={`${plant.nickname}(${plant.species}) photo`}/></div>
             <h4>{plant.nickname}</h4>
             <p>({plant.species})</p>
             
