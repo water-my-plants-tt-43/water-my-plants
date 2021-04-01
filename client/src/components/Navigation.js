@@ -1,4 +1,5 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
+import {axiosWithAuth} from '../utils/axiosWithAuth'
 import Button from './Button'
 import {useHistory} from 'react-router-dom'
 import styled from 'styled-components'
@@ -54,6 +55,20 @@ padding-right:3rem;
 
 const Navigation = (props) => {
 
+    
+    const host = "https://water-my-plants-tt43.herokuapp.com";
+    const [user,setUser]=useState('User')
+
+    useEffect(() => {
+        axiosWithAuth(host)
+          .get(`/api/users/${localStorage.getItem("user")}`)
+          .then((res) => {
+              console.log(res)
+              setUser(res.data.username)
+          })
+          .catch((err) => console.log(err.response));
+      }, []);
+
     const {push} = useHistory()
 
     const logout = () =>{
@@ -66,7 +81,7 @@ const Navigation = (props) => {
         <Wrapper>
             <NavContainer>
                 <h3>WaterMyPlants</h3>
-                <p>welcome <span>User</span></p>
+                <p>welcome, <span>{user}</span>!</p>
             </NavContainer>
             <ButtonsContainer>
                     <Button onClick ={()=>{push('/user')}} innerText={'My Profile'}/>
