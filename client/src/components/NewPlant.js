@@ -1,66 +1,98 @@
-// nickname
-// species
-// maybe a dropdown with a list or user input box
-// water frequency
-// override frequency
-// input the day watered to update
-// form type
-// upload img type button --option
 import React, { useState } from "react";
-import * as Yup from "yup";
+import { useHistory } from 'react-router-dom';
+import { axiosWithAuth } from "../utils/axiosWithAuth";
+//import * as Yup from "yup";
 
-const plantSchema = Yup.object().shape({
-  nickname: Yup.string().required("Please enter a name"),
-  species: Yup.string(),
-  waterFrequency: Yup.number("Please enter a watering frequency").required(),
-  img: Yup.string(),
-  instructions: Yup.string(),
-});
+// const plantSchema = Yup.object().shape({
+//   nickname: Yup.string().required("Please enter a name"),
+//   species: Yup.string(),
+//   waterFrequency: Yup.number("Please enter a watering frequency").required(),
+//   img: Yup.string(),
+//   instructions: Yup.string(),
+// });
 
-const fields = [
-  { id: "nickname", type: "text", label: "Nickname" },
-  { id: "species", type: "text", label: "Species" },
-  { id: "waterFrequency", type: "number", label: "Water Every # Days" },
-  { id: "img", type: "text", label: "Image URL" },
-  { id: "instructions", type: "textarea", label: "Special Instructions" },
-];
+// const fields = [
+//   { id: "nickname", type: "text", label: "Nickname" },
+//   { id: "species", type: "text", label: "Species" },
+//   { id: "waterFrequency", type: "number", label: "Water Every # Days" },
+//   { id: "img", type: "text", label: "Image URL" },
+//   { id: "instructions", type: "textarea", label: "Special Instructions" },
+// ];
 
-var init = {};
-fields.forEach((field) => (init[field.id] = ""));
+// var init = {};
+// fields.forEach((field) => (init[field.id] = ""));
+
+const initialState = {
+  species: '',
+  nickname: '',
+  water_frequency: ''
+}
 
 const AddPlant = (props) => {
-  const [values, setValues] = useState(init);
+  const { push } = useHistory();
+  const [formValues, setFormValues] = useState(initialState);
   const [disabled, setDisabled] = useState(true);
 
-  const onCancel = (e) => {
+  const handleCancel = (e) => {
     e.preventDefault();
-    props.setEditing(false);
-    setValues(init);
+    setFormValues(initialState);
+    push('/plants');
+    setDisabled(true);
   };
 
-  const onSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // new plant goes here
-    const newPlant = values;
-    console.log(newPlant);
-    props.addPlant(newPlant);
-    setValues(init);
-    props.setEditing(false);
+
+    axiosWithAuth('https://water-my-plants-tt43.herokuapp.com')
+      .post(`/api/users/${localStorage.getItem("user")}/plants`, formValues)
+      .then(res => {
+        console.log('New Plant: ', res);
+        push('/plants');
+      })
+      .catch(err => console.log(err.response))
+
+    setFormValues(initialState);
+    setDisabled(true);
   };
 
-  const getFormState = (state) => {
-    setValues(state.values);
-    setDisabled(state.disabled);
+  const handleChange = event => {
+    setFormValues({
+      ...formValues, 
+      [event.target.name]: event.target.value
+    })
+    setDisabled(false);
   };
 
   return (
     <div className='form-container'>
       <h2>Add New Plant</h2>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit}>
+        <input
+          name='species'
+          type='text'
+          value={formValues.species}
+          onChange={handleChange}
+          placeholder='Species'
+        />
+        <input
+          name='nickname'
+          type='text'
+          value={formValues.nickname}
+          onChange={handleChange}
+          placeholder='Nickname'
+        />
+        <input
+          name='water_frequency'
+          type='text'
+          value={formValues.water_frequency}
+          onChange={handleChange}
+          placeholder='Water Frequency'
+        />
         <button type='submit' disabled={disabled}>
           Add Plant
         </button>
       </form>
+      <button onClick={handleCancel}>Cancel</button>
     </div>
   );
 };
