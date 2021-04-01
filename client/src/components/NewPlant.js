@@ -1,13 +1,7 @@
-// nickname
-// species
-// maybe a dropdown with a list or user input box
-// water frequency
-// override frequency
-// input the day watered to update
-// form type
-// upload img type button --option
-// import React, { useState } from "react";
-// import * as Yup from 'yup';
+import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
+import { axiosWithAuth } from "../utils/axiosWithAuth";
+//import * as Yup from "yup";
 
 // const plantSchema = Yup.object().shape({
 //   nickname: Yup.string().required("Please enter a name"),
@@ -28,47 +22,79 @@
 // var init = {};
 // fields.forEach((field) => (init[field.id] = ""));
 
-// const AddPlant = (props) => {
+const initialState = {
+  species: '',
+  nickname: '',
+  water_frequency: ''
+}
 
-//   const [values, setValues] = useState(init);
-//   const [disabled, setDisabled] = useState(true);
+const AddPlant = (props) => {
+  const { push } = useHistory();
+  const [formValues, setFormValues] = useState(initialState);
+  const [disabled, setDisabled] = useState(true);
 
-//   const onCancel = (e) => {
-//     e.preventDefault();
-//     props.setEditing(false);
-//     setValues(init);
-//   };
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setFormValues(initialState);
+    push('/plants');
+    setDisabled(true);
+  };
 
-//   const onSubmit = (e) => {
-//     e.preventDefault();
-//     // new plant goes here
-//     const newPlant = values;
-//     console.log(newPlant);
-//     props.addPlant(newPlant);
-//     setValues(init);
-//     props.setEditing(false);
-//   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-//  const getFormState = (state) => {
-//     setValues(state.values);
-//     setDisabled(state.disabled);
-//  }
+    axiosWithAuth('https://water-my-plants-tt43.herokuapp.com')
+      .post(`/api/users/${localStorage.getItem("user")}/plants`, formValues)
+      .then(res => {
+        console.log('New Plant: ', res);
+        push('/plants');
+      })
+      .catch(err => console.log(err.response))
 
-//   return (
-//     <div className="form-container">
-//       <h2>Add New Plant</h2>
-//       <form onSubmit={onSubmit}>
+    setFormValues(initialState);
+    setDisabled(true);
+  };
 
-//         />
-//       <button type="submit" disabled={disabled}>
-//         Add Plant
-//       </button>
-//       </form>
-//     </div>
-//   )
+  const handleChange = event => {
+    setFormValues({
+      ...formValues, 
+      [event.target.name]: event.target.value
+    })
+    setDisabled(false);
+  };
 
-// };
+  return (
+    <div className='form-container'>
+      <h2>Add New Plant</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          name='species'
+          type='text'
+          value={formValues.species}
+          onChange={handleChange}
+          placeholder='Species'
+        />
+        <input
+          name='nickname'
+          type='text'
+          value={formValues.nickname}
+          onChange={handleChange}
+          placeholder='Nickname'
+        />
+        <input
+          name='water_frequency'
+          type='text'
+          value={formValues.water_frequency}
+          onChange={handleChange}
+          placeholder='Water Frequency'
+        />
+        <button type='submit' disabled={disabled}>
+          Add Plant
+        </button>
+      </form>
+      <button onClick={handleCancel}>Cancel</button>
+    </div>
+  );
+};
 
-
-
-// export default AddPlant;
+export default AddPlant;

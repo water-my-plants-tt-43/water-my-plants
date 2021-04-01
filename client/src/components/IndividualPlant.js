@@ -1,35 +1,44 @@
-//detials
-import React from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 
-const PlantView = (props) => {
-  const {
-    id,
-    nickname,
-    // species,
-    water_frequency,
-    // image,
-    // instructions,
-  } = props.plant;
+const IndividualPlant = (props) => {
+  // const {
+  //   id,
+  //   nickname,
+  //   // species,
+  //   water_frequency,
+  //   // image,
+  //   // instructions,
+  // } = props.plant;
+
+  const { plantId } = useParams();
+  const [plant, setPlant] = useState({});
+  const { push } = useHistory();
+
+  useEffect(() => {
+    axiosWithAuth("https://water-my-plants-tt43.herokuapp.com")
+      .get(`/api/users/${localStorage.getItem("user")}/plants/${plantId}`)
+      .then((res) => setPlant(res.data[0]))
+      .catch((err) => console.log(err.response));
+  }, []);
 
   return (
     <div className='plant-list-item'>
-      <div className='plant-view' onClick={togglePlant}>
-        <div className="view-header">
-          <h3>{nickname}</h3>
-          <p>Watered me {water_frequency} times a week!</p>
+      <div className='plant-view'>
+        <div className='view-header'>
+          <h1>{plant.nickname}</h1>
+          <p>{plant.last_water && plant.last_water.slice(0,10)}</p>
+          <p>{plant.species}</p>
+          <p>Created By: {plant.user}</p>
+          <p>Days between watering: {plant.water_frequency}</p>
+          <button onClick={() => push(`/plant/${plant.user_plants_id}/edit`)}>
+            Edit {plant.nickname}
+          </button>
         </div>
-        <img
-          alt='plant'
-        />
       </div>
-      <PlantView
-        id={id}
-        payload={props.plant}
-      />
     </div>
   );
 };
 
-
-export default connect(PlantView);
+export default IndividualPlant;
