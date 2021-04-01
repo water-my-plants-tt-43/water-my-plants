@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import registerFormSchema from "../validation/RegisterFormSchema";
 import * as yup from "yup";
+import Button from './Button'
+import {FormContainer, FormRouteContainer} from './FormContainer'
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { useHistory } from "react-router-dom";
 
@@ -61,10 +63,13 @@ export default function EditUser() {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username
+    
+      <FormContainer>
+        <h3>Edit My Profile</h3>
+        <div className='formContainer'>
+          
+          <form onSubmit={handleSubmit}>
+        <label>username</label>
           <input
             name='username'
             type='text'
@@ -72,10 +77,9 @@ export default function EditUser() {
             onChange={onChange}
             placeholder='Current Username'
           />
-        </label>
+        
 
-        <label>
-          Phone Number
+        <label>phone</label>
           <input
             name='phone'
             type='tel'
@@ -83,11 +87,18 @@ export default function EditUser() {
             onChange={onChange}
             placeholder='Current Phone Number'
           />
-        </label>
+       
 
-        <button>Submit Changes</button>
+        <div className='button'>
+          <Button type='submit' innerText={'save'}/>
+          <Button onClick={()=>push('/user')} innerText={'Cancel'}/>
+        </div>
+
+        
       </form>
-      <button onClick={() => push("/user")}>Cancel</button>
-    </>
+      </div>
+      
+      </FormContainer>
+    
   );
 }
