@@ -9,12 +9,15 @@ import PlantForm from "./components/PlantsForm";
 import React, { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./utils/ProtectedRoute";
+import Navigation from "./components/Navigation";
 
 function App() {
   const [userId, setUserId] = useState(null);
 
   return (
     <div>
+
+      {localStorage.getItem('token') && <Navigation/>}
       <Switch>
         <Route path={"/RegisterForm"}>
           <RegisterForm />

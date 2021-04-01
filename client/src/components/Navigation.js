@@ -69,6 +69,7 @@ const Navigation = (props) => {
             </NavContainer>
             <ButtonsContainer>
                     <Button onClick ={()=>{push('/user')}} innerText={'My Profile'}/>
+                    <Button onClick={()=>{push('/plants')}} innerText={'All Plants'}/>
                     <Button onClick={logout} innerText={'Logout'}/>
                 </ButtonsContainer>
         </Wrapper>
