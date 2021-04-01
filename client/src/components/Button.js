@@ -13,7 +13,7 @@ font-weight: 400;
 outline:none;
 border:none;
 cursor:pointer;
-box-shadow:2px 2px 4px #7A7A7A;
+box-shadow:${props=>props.theme.shadow};
 color: ${props => props.theme.color.white};
 padding:.5rem 2.5rem;
 transform-origin:center center;

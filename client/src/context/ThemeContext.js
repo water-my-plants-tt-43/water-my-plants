@@ -7,7 +7,7 @@ export const theme = {
         display: `xants, serif`,
         body:'century-gothic, sans-serif',
     },
-    shadow: '2px 2px 4px #7A7A7A',
+    shadow: '2px 2px 4px #d4d4d4',
     color:{
         teal: '#8ec8af',
         hover: '#75ac49',
