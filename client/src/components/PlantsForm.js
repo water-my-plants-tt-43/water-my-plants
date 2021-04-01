@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import Button from './Button'
+import {FormContainer} from './FormContainer'
 import {axiosWithAuth} from "../utils/axiosWithAuth"
 
 const PlantForm = (props) => {
@@ -37,6 +39,7 @@ const PlantForm = (props) => {
             [e.target.name]: e.target.value
         })
     }
+    
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -52,41 +55,44 @@ const PlantForm = (props) => {
     }
 
     return(
-        <div className="plant-form-container">
-            <form onSubmit={handleSubmit}>
-                <fieldset>
-                    <legend>edit Plant</legend>
-
-                    <label>Species:
+        <FormContainer>
+            <h2>Edit Plant</h2>
+           <div className='formContainer'>
+           <form onSubmit={handleSubmit}>
+                    <label htmlFor='species'>species</label>
                         <input 
                             type="text"
                             name="species"
                             value={plant.species}
                             onChange={handleChange}
                         />
-                    </label>
+                    
 
-                    <label>Nickname:
+                    <label htmlFor='nickname'>nickname</label>
                         <input 
                             type="text"
                             name="nickname"
                             value={plant.nickname}
                             onChange={handleChange}
                         />
-                    </label>
+                    
 
-                    <label>Water Frequency:
+                    <label htmlFor='water_frequency'>water frequency</label>
                         <input 
                             type="text"
                             name="water_frequency"
                             value={plant.water_frequency}
                             onChange={handleChange}
                         />
-                    </label>
-                    <button>OK</button>
-                </fieldset>
+
+                    <div className='button'>
+                        <Button type='sumbit' innerText={'save'}/>
+                        <Button onClick={()=>push(`/plant/${plantId}`)} innerText={'Cancel'}/>
+                    </div>
+        
             </form>
-        </div>
+           </div>
+        </FormContainer>
     )
 }
 

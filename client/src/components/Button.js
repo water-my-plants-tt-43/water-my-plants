@@ -30,7 +30,7 @@ const Button = (props) => {
 
     return(
         <div width='fit-content' height='fit-content'>
-            <StyledButton onClick={props.onClick}>{props.innerText}</StyledButton>
+            <StyledButton onClick={props.onClick} type={props.type}> {props.innerText} </StyledButton>
         </div>
     )
 }

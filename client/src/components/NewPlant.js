@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import { axiosWithAuth } from "../utils/axiosWithAuth";
+import Button from './Button'
+import {FormContainer} from './FormContainer'
 //import * as Yup from "yup";
 
 // const plantSchema = Yup.object().shape({
@@ -64,9 +66,14 @@ const AddPlant = (props) => {
   };
 
   return (
-    <div className='form-container'>
-      <h2>Add New Plant</h2>
-      <form onSubmit={handleSubmit}>
+    <FormContainer>
+
+      <h3>Add New Plant</h3>
+
+      <div className='formContainer'>
+      
+      <form onSubmit={handleSubmit}> 
+        <label htmlFor='species'>species</label>
         <input
           name='species'
           type='text'
@@ -74,6 +81,9 @@ const AddPlant = (props) => {
           onChange={handleChange}
           placeholder='Species'
         />
+        
+        <label htmlFor='nickname'>nickname</label>
+
         <input
           name='nickname'
           type='text'
@@ -81,6 +91,8 @@ const AddPlant = (props) => {
           onChange={handleChange}
           placeholder='Nickname'
         />
+
+        <label htmlFor='water_frequency'>water frequency</label>
         <input
           name='water_frequency'
           type='text'
@@ -88,12 +100,16 @@ const AddPlant = (props) => {
           onChange={handleChange}
           placeholder='Water Frequency'
         />
-        <button type='submit' disabled={disabled}>
-          Add Plant
-        </button>
+        
+        <div className='button'>
+        <Button innerText={'Add Plant'} type='submit'/>
+        <Button innerText={'Cancel'} onClick={handleCancel}/>
+        </div>
       </form>
-      <button onClick={handleCancel}>Cancel</button>
+      
+      
     </div>
+    </FormContainer>
   );
 };
 
