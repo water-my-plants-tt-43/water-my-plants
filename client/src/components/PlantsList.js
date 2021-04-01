@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
+import styled from 'styled-components'
 import { useHistory } from "react-router-dom";
+import PlantThumb from './PlantThumb'
+import NoPlants from './NoPlants'
+
+const GridContainer = styled.div`
+display: grid;
+width: 80%;
+grid-template-columns: repeat(4,1fr);
+gap:.5rem;`
 
 const host = "https://water-my-plants-tt43.herokuapp.com";
 
@@ -45,36 +54,14 @@ const PlantsList = (props) => {
     /* todo */
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    props.setUserId(null);
-    push("/");
-  };
 
   return (
     <div className='plants-container'>
-      <div className='temp-style-div'>-----</div>
-      <button onClick={() => push("/plants/new")}>New Plant</button>
-      {plants.map((plant, index) => {
-        return (
-          <div className='plant-container' key={index}>
-            <div className='temp-style-div'>-----</div>
-            <div className='plant-species'>Species: {plant.species}</div>
+    
+      {plants.length === 0 && <NoPlants/>}
+      {plants.map( plant => <PlantThumb plant={plant}/>)}
 
-            <div className='plant-nickname'>Nickname: {plant.nickname}</div>
-            <div className='plant-water_frequency'>
-              Water Frequency: {plant.water_frequency} times/week
-            </div>
-            <div className='plant-user'>Created By: {plant.user}</div>
-
-            <button onClick={() => push(`/plant/${plant.user_plants_id}`)}>
-              View Plant
-            </button>
-          </div>
-        );
-      })}
-
-      <button onClick={logout}>Logout</button>
+      
     </div>
   );
 };
