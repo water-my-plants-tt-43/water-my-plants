@@ -58,6 +58,7 @@ const Navigation = (props) => {
 
     const logout = () =>{
         localStorage.removeItem('token')
+        localStorage.removeItem('user')
         push('/')
     }
 
