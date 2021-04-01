@@ -42,7 +42,9 @@ cursor: pointer;
 };
 
 & button{
-  left:46vw;
+  transform-origin: center center;
+  left:50%;
+  transform: translate(-50%);
   position:relative;
   align-object:center;
 

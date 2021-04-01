@@ -52,7 +52,7 @@ align-content:center;
   padding:2rem;
   box-shadow: ${props=>props.theme.shadow};
   background:white;
-  width: 25%;
+  width: 35%;
   
 
   & form{
