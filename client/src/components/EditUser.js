@@ -1,84 +1,93 @@
-import React, {useState} from 'react';
-import registerFormSchema from '../validation/RegisterFormSchema';
+import React, { useState, useEffect } from "react";
+import registerFormSchema from "../validation/RegisterFormSchema";
 import * as yup from "yup";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
+import { useHistory } from "react-router-dom";
 
+const host = "https://water-my-plants-tt43.herokuapp.com";
 
-const initialFormValues = {
-    username: "",
-    password: "",
-    phone: "",
-  };
-  const initialFormErrors = {
-    username: "",
-    password: "",
-    phone: "",
-  };
+const initialFormErrors = {
+  username: "",
+  phone: "",
+};
+
+const initialUser = {
+  username: "",
+  phone: "",
+};
 
 export default function EditUser() {
+  const { push } = useHistory();
+  const [formErrors, setFormErrors] = useState(initialFormErrors);
+  const [userInfo, setUserInfo] = useState(initialUser);
 
-    const [formValues, setFormValues] = useState(initialFormValues);
-    const [formErrors, setFormErrors] = useState(initialFormErrors);
-    
-    const updateForm = (name, value) => {
-        yup
-          .reach(registerFormSchema, name)
-          .validate(value)
-          .then(() => {
-            setFormErrors({ ...formErrors, [name]: "" });
-          })
-          .catch((err) => {
-            setFormErrors({ ...formErrors, [name]: err.errors[0] });
-          });
-        setFormValues({
-          ...formValues,
-          [name]: value,
-        });
-      };
-    
-      const onChange = (evt) => {
-        // console.log(evt.target);
-        const { name, value } = evt.target;
-        updateForm(name, value);
-      };
+  useEffect(() => {
+    axiosWithAuth(host)
+      .get(`/api/users/${localStorage.getItem("user")}`)
+      .then((res) => setUserInfo(res.data))
+      .catch((err) => console.log(err.response));
+  }, []);
 
-    return(
-        <form>
+  const updateForm = (name, value) => {
+    yup
+      .reach(registerFormSchema, name)
+      .validate(value)
+      .then(() => {
+        setFormErrors({ ...formErrors, [name]: "" });
+      })
+      .catch((err) => {
+        setFormErrors({ ...formErrors, [name]: err.errors[0] });
+      });
+    setUserInfo({
+      ...userInfo,
+      [name]: value,
+    });
+  };
 
-            <label>
-                Username
-                <input
-                  name='username'
-                  type='text'
-                  value={formValues.username}
-                  onChange={onChange}
-                  placeholder='Current Username'
-                  />
-            </label>
+  const onChange = (evt) => {
+    const { name, value } = evt.target;
+    updateForm(name, value);
+  };
 
-            <label>
-                Password
-                <input
-                  name='password'
-                  type='password'
-                  value={formValues.password}
-                  onChange={onChange}
-                  placeholder='Current Password'
-                  />
-            </label>
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-            <label>
-                Phone Number
-                <input
-                  name='phone'
-                  type='tel'
-                  value={formValues.phone}
-                  onChange={onChange}
-                  placeholder='Current Phone Number'
-                  />
-            </label>
+    axiosWithAuth(host)
+      .put(`/api/users/${localStorage.getItem("user")}`, userInfo)
+      .then((res) => {
+        push("/user");
+      })
+      .catch((err) => console.log(err.response));
+  };
 
-            <button>Submit Changes</button>
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Username
+          <input
+            name='username'
+            type='text'
+            value={userInfo.username}
+            onChange={onChange}
+            placeholder='Current Username'
+          />
+        </label>
 
-        </form>
-    );
-};
+        <label>
+          Phone Number
+          <input
+            name='phone'
+            type='tel'
+            value={userInfo.phone}
+            onChange={onChange}
+            placeholder='Current Phone Number'
+          />
+        </label>
+
+        <button>Submit Changes</button>
+      </form>
+      <button onClick={() => push("/user")}>Cancel</button>
+    </>
+  );
+}

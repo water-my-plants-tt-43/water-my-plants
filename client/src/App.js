@@ -4,15 +4,15 @@ import LoginForm from "./components/LoginForm";
 import PlantsList from "./components/PlantsList";
 import NewPlant from "./components/NewPlant";
 import IndividualPlant from "./components/IndividualPlant";
-import PlantForm from "./components/PlantsForm";
+import PlantsForm from "./components/PlantsForm";
+import UserInfo from "./components/UserInfo";
+import EditUser from "./components/EditUser";
 
-import React, { useState } from "react";
+import React from "react";
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./utils/ProtectedRoute";
 
 function App() {
-  const [userId, setUserId] = useState(null);
-
   return (
     <div>
       <Switch>
@@ -20,14 +20,14 @@ function App() {
           <RegisterForm />
         </Route>
         <Route path='/login'>
-          <LoginForm setUserId={setUserId} />
+          <LoginForm />
         </Route>
-        <PrivateRoute
-          path='/plants'
-          component={() => <PlantsList userId={userId} setUserId={setUserId} />}
-        />
-        {/* <PrivateRoute path='/newplant' component={PlantForm} /> */}
-        <PrivateRoute path='/plant/:plantId/edit' component={PlantForm} />
+        <PrivateRoute path='/plants/new' component={NewPlant} />
+        <PrivateRoute path='/plants' component={PlantsList} />
+        <PrivateRoute path='/user/edit' component={EditUser} />
+        <PrivateRoute path='/user' component={UserInfo} />
+
+        <PrivateRoute path='/plant/:plantId/edit' component={PlantsForm} />
         <PrivateRoute path='/plant/:plantId' component={IndividualPlant} />
         <Route path='/'>
           <Home />

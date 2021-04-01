@@ -54,7 +54,7 @@ const PlantsList = (props) => {
   return (
     <div className='plants-container'>
       <div className='temp-style-div'>-----</div>
-      <button onClick={() => push("/newplant")}>New Plant</button>
+      <button onClick={() => push("/plants/new")}>New Plant</button>
       {plants.map((plant, index) => {
         return (
           <div className='plant-container' key={index}>
