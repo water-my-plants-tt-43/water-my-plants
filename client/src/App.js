@@ -11,10 +11,13 @@ import EditUser from "./components/EditUser";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./utils/ProtectedRoute";
+import Navigation from "./components/Navigation";
 
 function App() {
   return (
     <div>
+
+      {localStorage.getItem('token') && <Navigation/>}
       <Switch>
         <Route path={"/RegisterForm"}>
           <RegisterForm />
