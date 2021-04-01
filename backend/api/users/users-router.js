@@ -1,14 +1,17 @@
 const router = require('express').Router()
 const Users = require('./users-model')
 const Plants = require('../plants/plants-model')
+const {restricted} = require('../auth/auth-middleware')
+const bcryptjs = require('bcryptjs')
+const {rounds} = require('../secret')
 
 
-router.get('/', async(req, res) => {
+router.get('/', restricted, async(req, res) => {
   const users = await Users.find()
   res.status(200).json(users)
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', restricted, async (req, res, next) => {
   try{
     const id = req.params.id
     const user = await Users.findById(id)
@@ -18,13 +21,16 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', restricted, async (req, res, next) => {
   try{
     const userId = req.params.id
-    const changes = req.body
+    let changes = req.body
     if(!changes.username || !changes.password || !changes.phone) {
       res.status(400).json({message: "this request must contain all required fields"})
     } else{
+      let newPassword = changes.password
+      const hash = bcryptjs.hashSync(newPassword, rounds)
+      changes = {...changes, password: hash}
       const updatedUser = await Users.update(userId, changes)
       res.json(updatedUser)
     }
@@ -34,27 +40,33 @@ router.put('/:id', async (req, res, next) => {
 })
 
 //eslint-disable-next-line
-router.get('/:id/plants', async (req, res, next) => {
+router.get('/:id/plants', restricted, async (req, res, next) => {
   const plants = await Plants.findById(req.params.id)
   res.status(200).json(plants)
 })
 
 //eslint-disable-next-line
-router.get('/:id/plants/:plant_id', async (req, res, next) => {
+router.get('/:id/plants/:plant_id', restricted, async (req, res, next) => {
   const plant = await Plants.findByPlantId(req.params.id, req.params.plant_id)
   res.status(200).json(plant)
 })
 
-router.post('/:id/plants', async (req, res, next) => {
+router.post('/:id/plants', restricted, async (req, res, next) => {
   try{
-    const newPlant = await Plants.create(req.params.id, req.body)
-    res.status(200).json(newPlant)
+    const userId = req.params.id
+    const user = await Users.findById(userId)
+    if(!user){
+      res.status(404).json({message:'not a valid user'})
+    }else {
+      const newPlant = await Plants.create(req.params.id, req.body)
+      res.status(200).json(newPlant)
+    }
   } catch(err){
     next(err)
   }
 })
 
-router.delete('/:id/plants/:plant_id', async (req, res, next) => {
+router.delete('/:id/plants/:plant_id', restricted, async (req, res, next) => {
   const userId = req.params.id
   const userPlantId = req.params.plant_id
   try{
@@ -67,7 +79,7 @@ router.delete('/:id/plants/:plant_id', async (req, res, next) => {
   }
 })
 
-router.put('/:id/plants/:plant_id', async (req, res, next) => {
+router.put('/:id/plants/:plant_id', restricted, async (req, res, next) => {
   
   try{
     const userId = req.params.id
