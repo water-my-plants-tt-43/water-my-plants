@@ -10,21 +10,23 @@ const initialState = {
     water_frequency: ''
 }
 
-export default function PlantsList(props) {
+const PlantsList=(props) =>{
+
     const { userId } = props;
+    console.log(userId)
     const { push } = useHistory();
     const [plants, setPlants] = useState([]);
     const [disabled, setDisabled] = useState([plants.length][false]); // 2d array for each edit button for every plant that exists
     const [formvalues, setFormvalues] = useState(initialState);
 
     useEffect(() => {
-        axiosWithAuth(host).get(`${host}/api/users/${userId}/plants`)
+        axiosWithAuth(host).get(`/api/users/${userId}/plants`)
             .then(res => {
                 console.log(res.data);
                 setPlants(res.data);
             })
             .catch(err => console.log(err))
-    })
+    },[])
 
     const isEditing = index => {
         const boolean = (disabled[index] === true ? false : true);
@@ -40,6 +42,12 @@ export default function PlantsList(props) {
     const handleSubmit = event => {
         event.preventDefault();
         /* todo */
+    }
+    
+    const logout = () =>{
+        localStorage.removeItem('token')
+        props.setUserId(null)
+        push('/')
     }
 
     return (
@@ -88,6 +96,10 @@ export default function PlantsList(props) {
                     )
                 })
             }
+
+            <button onClick={logout}>Logout</button>
         </div>
     )
 }
+
+export default PlantsList
