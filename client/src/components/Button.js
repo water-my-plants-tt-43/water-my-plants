@@ -15,7 +15,7 @@ border:none;
 cursor:pointer;
 box-shadow:2px 2px 4px #7A7A7A;
 color: ${props => props.theme.color.white};
-padding:1rem;
+padding:.5rem 2.5rem;
 text-transform: uppercase;
 
 &:hover{
