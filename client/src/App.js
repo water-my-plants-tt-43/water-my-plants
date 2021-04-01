@@ -10,7 +10,7 @@ import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./utils/ProtectedRoute";
 
 function App() {
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState(null);
 
   return (
     <div>
@@ -23,7 +23,7 @@ function App() {
         <Route path='/login' >
           <LoginForm setUserId={setUserId} />
         </Route>
-        <PrivateRoute path='/plants' component={PlantsList} props={userId} />
+        <PrivateRoute path='/plants' component={()=><PlantsList userId={userId} setUserId={setUserId}/>} />
         <PrivateRoute path='/newplant' component={NewPlant} />
         <Route path='/'>
           <Home />
