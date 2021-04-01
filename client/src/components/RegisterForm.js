@@ -121,7 +121,7 @@ export default function RegisterForm(props) {
         <div>{formErrors.number}</div>
       </div>
     
-      <Button innerText={'register'}/> 
+      <div className='button'><Button innerText={'register'}/> </div>
     </form>
       </div>
 

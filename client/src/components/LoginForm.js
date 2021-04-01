@@ -129,7 +129,7 @@ export default function LoginForm(props) {
             <div>{formErrors.password}</div>
           </div>
 
-          <Button innerText={"Login"} />
+          <div className='button'><Button innerText={"Login"} /></div>
         </form>
       </div>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import styled from 'styled-components'
+import Button from './Button'
 import { useHistory } from "react-router-dom";
 import PlantThumb from './PlantThumb'
 import NoPlants from './NoPlants'
@@ -8,8 +9,32 @@ import NoPlants from './NoPlants'
 const GridContainer = styled.div`
 display: grid;
 width: 80%;
+margin:auto;
 grid-template-columns: repeat(4,1fr);
-gap:.5rem;`
+gap:.5rem;
+
+& div{cursor:pointer;}`
+
+const Heading= styled.div`
+width: 80%;
+margin: 4rem auto;
+
+& button{
+  font-size: 1rem;
+  margin:0;
+}
+
+& h2{
+font-family: ${props=> props.theme.font.display};
+color: ${props=>props.theme.color.grayDark};
+font-weight: 400;
+font-size: 3rem;
+margin:.5rem 0;
+};
+
+
+
+`
 
 const host = "https://water-my-plants-tt43.herokuapp.com";
 
@@ -59,7 +84,11 @@ const PlantsList = (props) => {
     <div className='plants-container'>
     
       {plants.length === 0 && <NoPlants/>}
+      {plants.length !== 0 && <Heading><h2>My Plants</h2> <Button innerText={'Add Plant'} onClick={()=>{push('/plants/new')}}/></Heading>}
+    
+      <GridContainer>
       {plants.map( plant => <PlantThumb plant={plant}/>)}
+      </GridContainer>
 
       
     </div>
