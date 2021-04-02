@@ -10,6 +10,8 @@ const GridContainer = styled.div`
 display: grid;
 width: 80%;
 margin:auto;
+position:relative;
+overflow-x:hidden;
 grid-template-columns: repeat(4,1fr);
 gap:2rem;
 padding-bottom:3rem;
@@ -19,6 +21,8 @@ padding-bottom:3rem;
 const Heading= styled.div`
 width: 80%;
 margin: 4rem auto;
+position:relative;
+overflow-x:hidden;
 
 & button{
   font-size: 1rem;

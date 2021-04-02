@@ -5,10 +5,12 @@ import {useHistory} from 'react-router-dom'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-width:100vw;
+width:100%;
 height: 125px;
-overflow-x:hidden;
-overflow-y:visible;`
+position:sticky;
+top:0;
+z-index:3;
+`
 
 
 const NavContainer = styled.nav`
@@ -16,6 +18,7 @@ background: ${props=>props.theme.color.background};
 box-shadow: ${props=>props.theme.shadow};
 padding: 0 4rem;
 position:relative;
+overflow-x:hidden;
 color: ${props=>props.theme.color.teal};
 display: flex;
 justify-content: space-between;
@@ -24,6 +27,7 @@ align-items: center;
     font-family: ${props=>props.theme.font.display};
     font-weight: 400;
     font-size:2rem;
+    cursor:pointer;
     
     }
 & p{
@@ -80,7 +84,7 @@ const Navigation = (props) => {
     return(
         <Wrapper>
             <NavContainer>
-                <h3>WaterMyPlants</h3>
+                <h3 onClick={()=>push('/plants')}>WaterMyPlants</h3>
                 <p>welcome, <span>{user}</span>!</p>
             </NavContainer>
             <ButtonsContainer>

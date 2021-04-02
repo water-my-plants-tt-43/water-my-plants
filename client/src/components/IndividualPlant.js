@@ -8,7 +8,8 @@ import { axiosWithAuth } from "../utils/axiosWithAuth";
 const Wrapper= styled.div`
 width:100%;
 height:80vh;
-overflow:hidden;
+position:relative;
+overflow-x:hidden;
 display: flex;
 justify-content:center;
 align-items:center;
