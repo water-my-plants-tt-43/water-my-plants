@@ -12,6 +12,7 @@ const s3 = new aws.S3()
 
 const fileFilter = (req, file, cb) => {
   if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+    file.contentType = file.mimetype
     cb(null, true)
   } else {
     cb(new Error('Invalid Mime Type, only JPEG and PNG'), false)
@@ -22,8 +23,9 @@ const upload = multer({
   fileFilter,
   storage: multerS3({
     s3,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
     bucket:'water-my-plants-tt43',
-    acl: 'private',
+    acl: 'public-read',
     metadata: function(req, file, cb) {
       cb(null, {fieldName: 'TESTING_META_DATA'})
     },

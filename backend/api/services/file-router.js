@@ -8,10 +8,14 @@ const upload = require('./file-upload')
 const singleUpload = upload.single('image');
 
 router.post('/:plant_id/image-upload', restricted, async (req, res) => {
+  console.log(req)
   await singleUpload(req, res, function(err){
     if(err){
       res.status(422).send({errors: [{title: 'file upload error', detail: err.message}]})
     } else {
+      console.log(req.file)
+      req.file.contentType = req.file.mimetype
+      console.log(req.file)
       const newImageUrl = req.file.location
       const plant = req.params.plant_id
       Files.insertImage(newImageUrl, plant)
