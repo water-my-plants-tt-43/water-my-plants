@@ -118,7 +118,7 @@ export default function RegisterForm(props) {
         <div>{formErrors.username}</div>
         <div>{formErrors.password}</div>
         {/* <div>{formErrors.email}</div> */}
-        <div>{formErrors.number}</div>
+        <div>{formErrors.phone}</div>
       </div>
     
       <div className='button'><Button innerText={'register'}/> </div>

@@ -23,7 +23,7 @@ function App() {
   useEffect(()=>{
 
     privateLocation !== '/' && privateLocation !== '/login' && privateLocation !== '/RegisterForm' ? setPage(true): setPage(false);
-    console.log(page)
+   // console.log(page)
 
   },[location,privateLocation])
   

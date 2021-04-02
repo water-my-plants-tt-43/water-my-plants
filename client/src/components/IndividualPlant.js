@@ -8,7 +8,8 @@ import { axiosWithAuth } from "../utils/axiosWithAuth";
 const Wrapper= styled.div`
 width:100%;
 height:80vh;
-overflow:hidden;
+position:relative;
+overflow-x:hidden;
 display: flex;
 justify-content:center;
 align-items:center;
@@ -41,7 +42,8 @@ color: ${props=>props.theme.color.grayDark};
 };
 
 & button{
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  margin: .5rem auto;
 }
 
 & .large{
@@ -91,6 +93,20 @@ const IndividualPlant = (props) => {
       .catch((err) => console.log(err.response));
   }, []);
 
+  const handleDelete = (e) => {
+    e.preventDefault();
+
+    axiosWithAuth("https://water-my-plants-tt43.herokuapp.com/")
+    .delete(`/api/users/${localStorage.getItem('user')}/plants/${plantId}`)
+    .then((res)=>{
+      //console.log(res)
+        push(`/plants`)
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+  }
+
   return (
     <Wrapper>
 
@@ -109,6 +125,7 @@ const IndividualPlant = (props) => {
           <p>Created By: {plant.user}</p>
           <p>Days between watering: {plant.water_frequency}</p>
           <Button onClick={() => push(`/plant/${plant.user_plants_id}/edit`)} innerText={`Edit ${plant.nickname}`}/>
+          <Button onClick={handleDelete} innerText={'Delete'} />
         </div>
         </div>
       
