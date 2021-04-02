@@ -8,6 +8,7 @@ const Wrapper = styled.div`
 width:100%;
 height: 125px;
 position:sticky;
+overflow-x:hidden;
 top:0;
 z-index:3;
 `
