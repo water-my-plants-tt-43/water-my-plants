@@ -39,10 +39,16 @@ const create = async (userid, plant) => {
   const speciesFound = await getSpeciesBy(species)
   if(!speciesFound){
     console.log(species)
-    const newPlantId = await insertIntoPlants(species)
-    const newPlant = {user_id:userid, plant_id:newPlantId, nickname: plant.nickname, water_frequency: plant.water_frequency, last_water: plant.last_water}
-    const userplantId = await db('user_plants').insert(newPlant, ['user_plants_id'])
-    return await findByPlantId(userid, userplantId[0].user_plants_id)
+    insertIntoPlants(species)
+    .then(newPlantId => {
+      const newPlant = {user_id:userid, plant_id:newPlantId[0].plant_id, nickname: plant.nickname, water_frequency: plant.water_frequency, last_water: plant.last_water}
+      db('user_plants')
+      .insert(newPlant, ['user_plants_id'])
+      .then(userplantId => {
+        return findByPlantId(userid, userplantId[0].user_plants_id)
+      }).catch( err => console.log(err))
+    }).catch( err => console.log(err))
+
   } else {
     const newPlantId = speciesFound.plant_id
     const newPlant = {user_id:userid, plant_id:newPlantId, nickname: plant.nickname, water_frequency: plant.water_frequency, last_water: plant.last_water}
