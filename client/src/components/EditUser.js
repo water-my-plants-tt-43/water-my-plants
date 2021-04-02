@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import registerFormSchema from "../validation/RegisterFormSchema";
 import * as yup from "yup";
 import Button from './Button'
-import {FormContainer, FormRouteContainer} from './FormContainer'
+import {FormContainer} from './FormContainer'
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { useHistory } from "react-router-dom";
 

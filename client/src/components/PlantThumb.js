@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React from 'react'
 import {useHistory} from 'react-router-dom'
 import styled from 'styled-components'
 import thumb from '../plantThumbImg.svg'
@@ -40,12 +40,12 @@ const PlantThumb = (props) => {
     const{push} = useHistory()
 
     const {plant} = props
-    console.log(plant)
+    //console.log(plant)
 
     return(
         <ThumbWrapper key ={plant.user_plants_id} onClick={() => push(`/plant/${plant.user_plants_id}`)}>
 
-            <div><img src={thumb} alt={`${plant.nickname}(${plant.species}) photo`}/></div>
+            <div><img src={thumb} alt={`${plant.nickname}(${plant.species}) `}/></div>
             <h4>{plant.nickname}</h4>
             <p>({plant.species})</p>
             

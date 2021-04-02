@@ -58,7 +58,6 @@ const initialFormErrors = {
 };
 
 export default function LoginForm(props) {
-  const { setUserId } = props;
   const { push } = useHistory();
   const [formvalues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);

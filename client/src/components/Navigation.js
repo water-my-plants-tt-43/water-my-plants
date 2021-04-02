@@ -63,7 +63,7 @@ const Navigation = (props) => {
         axiosWithAuth(host)
           .get(`/api/users/${localStorage.getItem("user")}`)
           .then((res) => {
-              console.log(res)
+             // console.log(res)
               setUser(res.data.username)
           })
           .catch((err) => console.log(err.response));

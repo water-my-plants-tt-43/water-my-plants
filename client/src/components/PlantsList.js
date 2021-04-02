@@ -11,7 +11,8 @@ display: grid;
 width: 80%;
 margin:auto;
 grid-template-columns: repeat(4,1fr);
-gap:.5rem;
+gap:2rem;
+padding-bottom:3rem;
 
 & div{cursor:pointer;}`
 
@@ -38,46 +39,46 @@ margin:.5rem 0;
 
 const host = "https://water-my-plants-tt43.herokuapp.com";
 
-const initialState = {
-  species: "",
-  nickname: "",
-  water_frequency: "",
-};
+// const initialState = {
+//   species: "",
+//   nickname: "",
+//   water_frequency: "",
+// };
 
 const PlantsList = (props) => {
   // const { userId } = props;
   // console.log(userId);
   const { push } = useHistory();
   const [plants, setPlants] = useState([]);
-  const [disabled, setDisabled] = useState([plants.length][false]); // 2d array for each edit button for every plant that exists
-  const [formvalues, setFormvalues] = useState(initialState);
+  // const [disabled, setDisabled] = useState([plants.length][false]); // 2d array for each edit button for every plant that exists
+  // const [formvalues, setFormvalues] = useState(initialState);
 
   useEffect(() => {
     axiosWithAuth(host)
       //   .get(`/api/users/${userId}/plants`)
       .get(`/api/users/${localStorage.getItem("user")}/plants/`)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setPlants(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  const isEditing = (index) => {
-    const boolean = disabled[index] === true ? false : true;
-    setDisabled([index][boolean]);
-  };
+  // const isEditing = (index) => {
+  //   const boolean = disabled[index] === true ? false : true;
+  //   setDisabled([index][boolean]);
+  // };
 
-  const handleChange = (event) => {
-    setFormvalues({
-      [event.target.name]: event.target.value,
-    });
-  };
+  // const handleChange = (event) => {
+  //   setFormvalues({
+  //     [event.target.name]: event.target.value,
+  //   });
+  // };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    /* todo */
-  };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   /* todo */
+  // };
 
 
   return (
@@ -87,7 +88,7 @@ const PlantsList = (props) => {
       {plants.length !== 0 && <Heading><h2>My Plants</h2> <Button innerText={'Add Plant'} onClick={()=>{push('/plants/new')}}/></Heading>}
     
       <GridContainer>
-      {plants.map( plant => <PlantThumb plant={plant}/>)}
+      {plants.map( plant => <PlantThumb plant={plant} key={plant.user_plants_id}/>)}
       </GridContainer>
 
       

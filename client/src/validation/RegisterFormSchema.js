@@ -10,7 +10,7 @@ const registerFormSchema = yup.object().shape({
 
   email: yup.string().email().required("Email is required"),
 
-  phone: yup.number().min(10, "Must be 10 numbers long").max(10),
+  phone: yup.string().min(10, "Must be 10 numbers long").max(10),
 });
 
 export default registerFormSchema;
